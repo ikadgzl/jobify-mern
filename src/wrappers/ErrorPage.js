@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const Wrapper = styled.main`
   text-align: center;
@@ -8,6 +8,7 @@ const Wrapper = styled.main`
     margin-bottom: 2rem;
   }
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   h3 {
@@ -23,6 +24,6 @@ const Wrapper = styled.main`
     text-decoration: underline;
     text-transform: capitalize;
   }
-`
+`;
 
-export default Wrapper
+export default Wrapper;
