@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const Wrapper = styled.section`
   display: grid;
@@ -25,11 +25,15 @@ const Wrapper = styled.section`
     margin-top: 1rem;
   }
   .member-btn {
-    background: transparent;
-    border: transparent;
+    font-size: 1rem;
+    margin-left: 0.5rem;
     color: var(--primary-500);
     cursor: pointer;
     letter-spacing: var(--letterSpacing);
+
+    :hover {
+      text-decoration: underline;
+    }
   }
-`
-export default Wrapper
+`;
+export default Wrapper;
