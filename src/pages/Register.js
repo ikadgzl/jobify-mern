@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Logo, FormRow, Alert } from '../components/';
+import { useAppContext } from '../context/appContext';
 import Wrapper from '../wrappers/RegisterPage';
 
 const INITIAL_STATE = {
@@ -11,19 +12,22 @@ const INITIAL_STATE = {
 
 const Register = () => {
   const [user, setUser] = useState(INITIAL_STATE);
-  const [alert, setAlert] = useState(false);
+  const { state, displayAlert } = useAppContext();
 
   const handleChange = (e) => {
     setUser((prevUser) => ({ ...prevUser, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
-    console.log(user);
-    e.preventDefault();
-  };
-
   const handleToggle = () => {
     setUser((prevUser) => ({ ...prevUser, isMember: !prevUser.isMember }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!user.email || !user.password || (!user.isMember && !user.name)) {
+      displayAlert('danger', 'Please provide all the informations.');
+    }
   };
 
   return (
@@ -32,7 +36,7 @@ const Register = () => {
         <Logo />
         <h3>{user.isMember ? 'Login' : 'Register'}</h3>
 
-        {alert && <Alert type='danger' message='Invalid input values!' />}
+        {state.showAlert && <Alert />}
 
         {!user.isMember && (
           <FormRow
