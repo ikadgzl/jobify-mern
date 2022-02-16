@@ -4,6 +4,8 @@ import 'dotenv/config';
 
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFound } from './middlewares/notFound.js';
+import authRouter from './routes/authRoutes.js';
+import jobRouter from './routes/jobRoutes.js';
 
 const app = express();
 
@@ -11,9 +13,8 @@ app.use(express.json());
 
 console.log(process.env.PORT);
 
-app.get('/', (req, res) => {
-  res.send('hi');
-});
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/jobs/', jobRouter);
 
 app.use(errorHandler);
 app.use(notFound);
