@@ -1,4 +1,10 @@
-import { CLEAR_ALERT, SHOW_ALERT } from './actions';
+import {
+  CLEAR_ALERT,
+  REGISTER_USER_BEGIN,
+  REGISTER_USER_ERROR,
+  REGISTER_USER_SUCCESS,
+  SHOW_ALERT
+} from './actions';
 
 export const appReducer = (state, action) => {
   switch (action.type) {
@@ -15,9 +21,24 @@ export const appReducer = (state, action) => {
         ...state,
         showAlert: false,
         alertType: '',
-        alertTexT: ''
+        alertText: ''
       };
 
+    case REGISTER_USER_BEGIN:
+      return { ...state, isLoading: true };
+
+    case REGISTER_USER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        token: action.payload.token,
+        user: action.payload.user,
+        userLocation: action.payload.location,
+        jobLocation: action.payload.location
+      };
+
+    case REGISTER_USER_ERROR:
+      return { ...state, isLoading: false };
     default:
       break;
   }

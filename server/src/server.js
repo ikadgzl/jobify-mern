@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import 'dotenv/config';
 import 'express-async-errors';
+import cors from 'cors';
 
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFound } from './middlewares/notFound.js';
@@ -10,9 +11,16 @@ import jobRouter from './routes/jobRoutes.js';
 
 const app = express();
 
+app.use(
+  cors({
+    origin: ['http://localhost:3000']
+  })
+);
 app.use(express.json());
 
-console.log(process.env.PORT);
+app.get('/api/test', (req, res) => {
+  res.json({ msg: 'wassup' });
+});
 
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/jobs/', jobRouter);
