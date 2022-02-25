@@ -29,6 +29,28 @@ export const register = async (req, res) => {
   });
 };
 
-export const login = async (req, res) => {};
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    throw new Error('Provide all the credentials');
+  }
+
+  const existingUser = await User.findOne({ email }).select('+password');
+
+  if (!existingUser || (await existingUser.comparePassword(password))) {
+    throw new Error('Wrong credentials');
+  }
+
+  const token = user.createJWT();
+
+  delete existingUser.password;
+
+  res.status(StatusCodes.OK).json({
+    user: existingUser,
+    token,
+    location: user.location
+  });
+};
 
 export const update = async (req, res) => {};
