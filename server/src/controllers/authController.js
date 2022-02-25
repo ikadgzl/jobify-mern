@@ -38,18 +38,18 @@ export const login = async (req, res) => {
 
   const existingUser = await User.findOne({ email }).select('+password');
 
-  if (!existingUser || (await existingUser.comparePassword(password))) {
+  if (!existingUser || (await existingUser.comparePasswords(password))) {
     throw new Error('Wrong credentials');
   }
 
-  const token = user.createJWT();
+  const token = existingUser.createJWT();
 
   delete existingUser.password;
 
   res.status(StatusCodes.OK).json({
     user: existingUser,
     token,
-    location: user.location
+    location: existingUser.location
   });
 };
 

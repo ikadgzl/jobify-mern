@@ -2,6 +2,9 @@ import { createContext, useContext, useReducer } from 'react';
 import { addToLocalStorage, deleteLocalStorage } from './utils';
 import {
   clearAlert,
+  loginBegin,
+  loginError,
+  loginSuccess,
   registerBegin,
   registerError,
   registerSuccess,
@@ -56,8 +59,28 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  const loginUser = async (currentUser) => {
+    dispatch(loginBegin());
+
+    try {
+      const response = await axios.post('/api/v1/auth/login', currentUser);
+
+      const { user, token, location } = response.data;
+
+      dispatch(loginSuccess(user, token, location));
+      displayAlert('success', 'Logged in successfully! Redirecting...');
+
+      addToLocalStorage({ user, token, location });
+    } catch (error) {
+      dispatch(loginError());
+      displayAlert('danger', error.response.data.msg);
+    }
+  };
+
   return (
-    <AppContext.Provider value={{ state, displayAlert, registerUser }}>
+    <AppContext.Provider
+      value={{ state, displayAlert, registerUser, loginUser }}
+    >
       {children}
     </AppContext.Provider>
   );
