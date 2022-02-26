@@ -1,3 +1,11 @@
+export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
+
+export const toggle = () => ({
+  type: TOGGLE_SIDEBAR
+});
+
+// ###
+
 export const SHOW_ALERT = 'SHOW_ALERT';
 export const CLEAR_ALERT = 'CLEAR_ALERT';
 
@@ -43,3 +51,9 @@ export const loginSuccess = (user, token, location) => ({
 export const loginError = () => ({
   type: LOGIN_USER_ERROR
 });
+
+// ###
+
+export const LOGOUT_USER = 'LOGOUT_USER ';
+
+export const logout = () => ({ type: LOGOUT_USER });

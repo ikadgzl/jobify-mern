@@ -5,10 +5,12 @@ import {
   loginBegin,
   loginError,
   loginSuccess,
+  logout,
   registerBegin,
   registerError,
   registerSuccess,
-  showAlert
+  showAlert,
+  toggle
 } from './actions';
 import { appReducer } from './reducers';
 import axios from 'axios';
@@ -25,7 +27,8 @@ const INITIAL_STATE = {
   user: user ? JSON.parse(user) : null,
   token: token,
   userLocation: location || '',
-  jobLocation: location || ''
+  jobLocation: location || '',
+  toggleSidebar: false
 };
 
 const AppContext = createContext();
@@ -77,9 +80,25 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  const logoutUser = () => {
+    dispatch(logout());
+    deleteLocalStorage();
+  };
+
+  const toggleSidebar = () => {
+    dispatch(toggle());
+  };
+
   return (
     <AppContext.Provider
-      value={{ state, displayAlert, registerUser, loginUser }}
+      value={{
+        state,
+        displayAlert,
+        registerUser,
+        loginUser,
+        toggleSidebar,
+        logoutUser
+      }}
     >
       {children}
     </AppContext.Provider>
