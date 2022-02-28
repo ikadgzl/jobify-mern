@@ -62,7 +62,7 @@ export const appReducer = (state, action) => {
       return { ...state, isLoading: false };
 
     case TOGGLE_SIDEBAR:
-      return { ...state, toggleSidebar: !state.toggleSidebar };
+      return { ...state, showSidebar: !state.showSidebar };
 
     case LOGOUT_USER:
       return {

@@ -28,7 +28,7 @@ const INITIAL_STATE = {
   token: token,
   userLocation: location || '',
   jobLocation: location || '',
-  toggleSidebar: false
+  showSidebar: false
 };
 
 const AppContext = createContext();
