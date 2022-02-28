@@ -38,7 +38,7 @@ export const login = async (req, res) => {
 
   const existingUser = await User.findOne({ email }).select('+password');
 
-  if (!existingUser || (await existingUser.comparePasswords(password))) {
+  if (!existingUser || !(await existingUser.comparePasswords(password))) {
     throw new Error('Wrong credentials');
   }
 
@@ -53,4 +53,7 @@ export const login = async (req, res) => {
   });
 };
 
-export const update = async (req, res) => {};
+export const update = async (req, res) => {
+  console.log(req.user);
+  res.status(200).json({ user: req.user });
+};
