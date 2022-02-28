@@ -54,6 +54,21 @@ export const login = async (req, res) => {
 };
 
 export const update = async (req, res) => {
-  console.log(req.user);
-  res.status(200).json({ user: req.user });
+  const { email, name, lastName, location } = req.body;
+
+  if (!email || !name || !lastName || !location) {
+    throw new Error('Provide all the credentials');
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(req.user, req.body, {
+    new: true
+  });
+
+  const token = updatedUser.createJWT();
+
+  res.status(StatusCodes.OK).json({
+    user: updatedUser,
+    token,
+    location: updatedUser.location
+  });
 };

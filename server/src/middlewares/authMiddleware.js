@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 
 export const authMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization;
-
   if (!authHeader || !authHeader.startsWith('Bearer'))
     throw new Error('Not authorized');
 

@@ -24,7 +24,8 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjFjNGY4MTcyNGQ2ZGRmYjM5NGUxNTgiLCJpYXQiOjE2NDYwMjMwOTMsImV4cCI6MTY0NjEwOTQ5M30.xWpH2LvDYeNCyawiamf1Ijypmcpn6PUbuzYNZnkhn7g
 
 {
-  "name": "ilker",
-  "password": "ilker123",
-  "email": "dwd@this.com"
+  "name": "ilkerkaan",
+  "lastName": "adgzl",
+  "location": "updated location.",
+  "email": "ilker@this.com"
 }
