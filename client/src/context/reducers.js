@@ -8,7 +8,10 @@ import {
   REGISTER_USER_ERROR,
   REGISTER_USER_SUCCESS,
   SHOW_ALERT,
-  TOGGLE_SIDEBAR
+  TOGGLE_SIDEBAR,
+  UPDATE_USER_BEGIN,
+  UPDATE_USER_ERROR,
+  UPDATE_USER_SUCCESS
 } from './actions';
 
 export const appReducer = (state, action) => {
@@ -59,6 +62,22 @@ export const appReducer = (state, action) => {
       };
 
     case LOGIN_USER_ERROR:
+      return { ...state, isLoading: false };
+
+    case UPDATE_USER_BEGIN:
+      return { ...state, isLoading: true };
+
+    case UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        token: action.payload.token,
+        user: action.payload.user,
+        userLocation: action.payload.location,
+        jobLocation: action.payload.location
+      };
+
+    case UPDATE_USER_ERROR:
       return { ...state, isLoading: false };
 
     case TOGGLE_SIDEBAR:

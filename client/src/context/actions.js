@@ -57,3 +57,22 @@ export const loginError = () => ({
 export const LOGOUT_USER = 'LOGOUT_USER ';
 
 export const logout = () => ({ type: LOGOUT_USER });
+
+// ###
+
+export const UPDATE_USER_BEGIN = 'UPDATE_USER_BEGIN';
+export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
+export const UPDATE_USER_ERROR = 'UPDATE_USER_ERROR';
+
+export const updateBegin = () => ({ type: UPDATE_USER_BEGIN });
+
+export const updateSuccess = (user, token, location) => ({
+  type: UPDATE_USER_SUCCESS,
+  payload: { user, token, location }
+});
+
+export const updateError = () => ({
+  type: UPDATE_USER_ERROR
+});
+
+// ###

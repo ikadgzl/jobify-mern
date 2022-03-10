@@ -10,7 +10,10 @@ import {
   registerError,
   registerSuccess,
   showAlert,
-  toggle
+  toggle,
+  updateBegin,
+  updateError,
+  updateSuccess
 } from './actions';
 import { appReducer } from './reducers';
 import axios from 'axios';
@@ -86,8 +89,26 @@ const AppProvider = ({ children }) => {
   };
 
   const updateUser = async (userInfo) => {
-    console.log(userInfo);
-  }
+    dispatch(updateBegin());
+
+    try {
+      const response = await axios.put('/api/v1/auth/update', userInfo, {
+        headers: {
+          Authorization: `Bearer ${state.token}`
+        }
+      });
+
+      const { user, token, location } = response.data;
+
+      dispatch(updateSuccess(user, token, location));
+      displayAlert('success', 'User updated successfully!');
+
+      addToLocalStorage({ user, token, location });
+    } catch (error) {
+      dispatch(updateError());
+      displayAlert('danger', error.response.data.msg);
+    }
+  };
 
   const toggleSidebar = () => {
     dispatch(toggle());

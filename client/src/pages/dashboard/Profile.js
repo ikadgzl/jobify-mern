@@ -41,8 +41,6 @@ const Profile = () => {
     updateUser(userInfo);
   };
 
-  console.log(userInfo);
-
   return (
     <Wrapper>
       <form className='form' onSubmit={handleSubmit}>
