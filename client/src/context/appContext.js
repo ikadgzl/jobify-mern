@@ -85,6 +85,10 @@ const AppProvider = ({ children }) => {
     deleteLocalStorage();
   };
 
+  const updateUser = async (userInfo) => {
+    console.log(userInfo);
+  }
+
   const toggleSidebar = () => {
     dispatch(toggle());
   };
@@ -96,6 +100,7 @@ const AppProvider = ({ children }) => {
         displayAlert,
         registerUser,
         loginUser,
+        updateUser,
         toggleSidebar,
         logoutUser
       }}
