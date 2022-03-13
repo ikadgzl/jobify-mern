@@ -1,3 +1,5 @@
+//TODO: separate actions and action creators.
+
 export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
 
 export const toggle = () => ({
@@ -73,6 +75,39 @@ export const updateSuccess = (user, token, location) => ({
 
 export const updateError = () => ({
   type: UPDATE_USER_ERROR
+});
+
+// ###
+
+export const HANDLE_CHANGE = 'HANDLE_CHANGE';
+
+export const handleChangeAction = ({ name, value }) => ({
+  type: HANDLE_CHANGE,
+  payload: { name, value }
+});
+
+// ###
+
+export const CLEAR_VALUES = 'CLEAR_VALUES';
+
+export const clearValuesAction = () => ({
+  type: CLEAR_VALUES
+});
+
+// ###
+
+export const CREATE_JOB_BEGIN = 'CREATE_JOB_BEGIN';
+export const CREATE_JOB_SUCCESS = 'CREATE_JOB_SUCCESS';
+export const CREATE_JOB_ERROR = 'CREATE_JOB_ERROR';
+
+export const createJobBegin = () => ({ type: CREATE_JOB_BEGIN });
+
+export const createJobSuccess = () => ({
+  type: CREATE_JOB_SUCCESS
+});
+
+export const createJobError = () => ({
+  type: CREATE_JOB_ERROR
 });
 
 // ###

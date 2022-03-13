@@ -2,6 +2,11 @@ import { createContext, useContext, useReducer } from 'react';
 import { addToLocalStorage, deleteLocalStorage } from './utils';
 import {
   clearAlert,
+  clearValuesAction,
+  createJobBegin,
+  createJobError,
+  createJobSuccess,
+  handleChangeAction,
   loginBegin,
   loginError,
   loginSuccess,
@@ -22,6 +27,7 @@ const token = localStorage.getItem('token');
 const user = localStorage.getItem('user');
 const location = localStorage.getItem('location');
 
+// TODO: create separate context for auth,jobs,sorting, etc.
 const INITIAL_STATE = {
   isLoading: false,
   showAlert: false,
@@ -29,9 +35,17 @@ const INITIAL_STATE = {
   alertType: '',
   user: user ? JSON.parse(user) : null,
   token: token,
+  showSidebar: false,
   userLocation: location || '',
   jobLocation: location || '',
-  showSidebar: false
+  isEditing: false,
+  editJobId: null,
+  position: '',
+  company: '',
+  jobTypeOptions: ['full-time', 'part-time', 'remote', 'internship'],
+  jobType: 'full-time',
+  statusOptions: ['pending', 'interview', 'declined'],
+  status: 'pending'
 };
 
 const AppContext = createContext();
@@ -114,6 +128,40 @@ const AppProvider = ({ children }) => {
     dispatch(toggle());
   };
 
+  const handleChange = (data) => {
+    dispatch(handleChangeAction(data));
+  };
+
+  const clearValues = () => {
+    dispatch(clearValuesAction());
+  };
+
+  const createJob = async () => {
+    dispatch(createJobBegin());
+
+    try {
+      const { company, position, jobLocation, jobType, status } = INITIAL_STATE;
+
+      await axios.post(
+        '/api/v1/jobs',
+        { company, position, jobLocation, jobType, status },
+        {
+          headers: {
+            Authorization: `Bearer ${state.token}`
+          }
+        }
+      );
+
+      dispatch(createJobSuccess());
+      displayAlert('success', 'User updated successfully!');
+
+      clearValues();
+    } catch (error) {
+      dispatch(createJobError());
+      displayAlert('danger', error.response.data.msg);
+    }
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -123,7 +171,10 @@ const AppProvider = ({ children }) => {
         loginUser,
         updateUser,
         toggleSidebar,
-        logoutUser
+        logoutUser,
+        handleChange,
+        clearValues,
+        createJob
       }}
     >
       {children}

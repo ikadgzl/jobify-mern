@@ -1,5 +1,10 @@
 import {
   CLEAR_ALERT,
+  CLEAR_VALUES,
+  CREATE_JOB_BEGIN,
+  CREATE_JOB_ERROR,
+  CREATE_JOB_SUCCESS,
+  HANDLE_CHANGE,
   LOGIN_USER_BEGIN,
   LOGIN_USER_ERROR,
   LOGIN_USER_SUCCESS,
@@ -14,6 +19,7 @@ import {
   UPDATE_USER_SUCCESS
 } from './actions';
 
+// TODO: separate reducers.
 export const appReducer = (state, action) => {
   switch (action.type) {
     case SHOW_ALERT:
@@ -91,6 +97,37 @@ export const appReducer = (state, action) => {
         jobLocation: null,
         token: null
       };
+
+    case HANDLE_CHANGE:
+      return {
+        ...state,
+        [action.payload.name]: action.payload.value
+      };
+
+    case CLEAR_VALUES:
+      return {
+        ...state,
+        isEditing: false,
+        editJobId: null,
+        position: '',
+        company: '',
+        jobTypeOptions: ['full-time', 'part-time', 'remote', 'internship'],
+        jobType: 'full-time',
+        statusOptions: ['pending', 'interview', 'declined'],
+        status: 'pending'
+      };
+
+    case CREATE_JOB_BEGIN:
+      return { ...state, isLoading: true };
+
+    case CREATE_JOB_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      };
+
+    case CREATE_JOB_ERROR:
+      return { ...state, isLoading: false };
 
     default:
       break;
