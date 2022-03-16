@@ -111,3 +111,15 @@ export const createJobError = () => ({
 });
 
 // ###
+
+export const GET_JOBS_BEGIN = 'GET_JOBS_BEGIN';
+export const GET_JOBS_SUCCESS = 'GET_JOBS_SUCCESS';
+
+export const getJobsBegin = () => ({
+  type: GET_JOBS_BEGIN
+});
+
+export const getJobsSuccess = (payload) => ({
+  type: GET_JOBS_SUCCESS,
+  payload
+});

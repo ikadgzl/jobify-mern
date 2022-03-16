@@ -4,6 +4,8 @@ import {
   CREATE_JOB_BEGIN,
   CREATE_JOB_ERROR,
   CREATE_JOB_SUCCESS,
+  GET_JOBS_BEGIN,
+  GET_JOBS_SUCCESS,
   HANDLE_CHANGE,
   LOGIN_USER_BEGIN,
   LOGIN_USER_ERROR,
@@ -128,6 +130,18 @@ export const appReducer = (state, action) => {
 
     case CREATE_JOB_ERROR:
       return { ...state, isLoading: false };
+
+    case GET_JOBS_BEGIN:
+      return { ...state, isLoading: true };
+
+    case GET_JOBS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        jobs: action.payload.jobs,
+        totalJobs: action.payload.totalJobs,
+        numOfPages: action.payload.numOfPages
+      };
 
     default:
       break;

@@ -6,6 +6,8 @@ import {
   createJobBegin,
   createJobError,
   createJobSuccess,
+  getJobsBegin,
+  getJobsSuccess,
   handleChangeAction,
   loginBegin,
   loginError,
@@ -45,7 +47,11 @@ const INITIAL_STATE = {
   jobTypeOptions: ['full-time', 'part-time', 'remote', 'internship'],
   jobType: 'full-time',
   statusOptions: ['pending', 'interview', 'declined'],
-  status: 'pending'
+  status: 'pending',
+  jobs: [],
+  totalJobs: 0,
+  page: 1,
+  numOfPages: 1
 };
 
 const AppContext = createContext();
@@ -162,6 +168,26 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  const getJobs = async () => {
+    dispatch(getJobsBegin());
+
+    try {
+      const { data } = await axios.get('/api/v1/jobs', {
+        headers: {
+          Authorization: `Bearer ${state.token}`
+        }
+      });
+
+      dispatch(getJobsSuccess(data));
+    } catch (error) {
+      displayAlert('danger', error.response.data.msg);
+    }
+  };
+
+  const setEditJob = (id) => {};
+
+  const deleteJob = (id) => {};
+
   return (
     <AppContext.Provider
       value={{
@@ -174,7 +200,10 @@ const AppProvider = ({ children }) => {
         logoutUser,
         handleChange,
         clearValues,
-        createJob
+        createJob,
+        getJobs,
+        setEditJob,
+        deleteJob
       }}
     >
       {children}
