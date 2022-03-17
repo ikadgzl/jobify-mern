@@ -6,6 +6,10 @@ import {
   createJobBegin,
   createJobError,
   createJobSuccess,
+  deleteJobBegin,
+  editJobBegin,
+  editJobError,
+  editJobSuccess,
   getJobsBegin,
   getJobsSuccess,
   handleChangeAction,
@@ -16,6 +20,7 @@ import {
   registerBegin,
   registerError,
   registerSuccess,
+  setEditJobAction,
   showAlert,
   toggle,
   updateBegin,
@@ -184,9 +189,51 @@ const AppProvider = ({ children }) => {
     }
   };
 
-  const setEditJob = (id) => {};
+  const setEditJob = (id) => {
+    dispatch(setEditJobAction(id));
+  };
 
-  const deleteJob = (id) => {};
+  const editJob = () => {
+    dispatch(editJobBegin());
+
+    try {
+      const { company, position, jobLocation, jobType, status } = INITIAL_STATE;
+
+      await axios.put(
+        `/api/v1/jobs/${state.editJobId}`,
+        { company, position, jobLocation, jobType, status },
+        {
+          headers: {
+            Authorization: `Bearer ${state.token}`
+          }
+        }
+      );
+
+      dispatch(editJobSuccess());
+      displayAlert('success', 'Job updated successfully!');
+
+      clearValues();
+    } catch (error) {
+      dispatch(editJobError());
+      displayAlert('danger', error.response.data.msg);
+    }
+  };
+
+  const deleteJob = (id) => {
+    dispatch(deleteJobBegin());
+
+    try {
+      await axios.delete(`/api/v1/job/${id}`, {
+        headers: {
+          Authorization: `Bearer ${state.token}`
+        }
+      });
+
+      getJobs();
+    } catch (error) {
+      displayAlert('danger', error.response.data.msg);
+    }
+  };
 
   return (
     <AppContext.Provider
@@ -203,7 +250,8 @@ const AppProvider = ({ children }) => {
         createJob,
         getJobs,
         setEditJob,
-        deleteJob
+        deleteJob,
+        editJob
       }}
     >
       {children}

@@ -4,6 +4,10 @@ import {
   CREATE_JOB_BEGIN,
   CREATE_JOB_ERROR,
   CREATE_JOB_SUCCESS,
+  DELETE_JOB_BEGIN,
+  EDIT_JOB_BEGIN,
+  EDIT_JOB_ERROR,
+  EDIT_JOB_SUCCESS,
   GET_JOBS_BEGIN,
   GET_JOBS_SUCCESS,
   HANDLE_CHANGE,
@@ -14,6 +18,7 @@ import {
   REGISTER_USER_BEGIN,
   REGISTER_USER_ERROR,
   REGISTER_USER_SUCCESS,
+  SET_EDIT_JOB,
   SHOW_ALERT,
   TOGGLE_SIDEBAR,
   UPDATE_USER_BEGIN,
@@ -141,6 +146,39 @@ export const appReducer = (state, action) => {
         jobs: action.payload.jobs,
         totalJobs: action.payload.totalJobs,
         numOfPages: action.payload.numOfPages
+      };
+
+    case SET_EDIT_JOB:
+      const job = state.jobs.find((job) => job._id === action.payload.id);
+      const { _id, position, company, jobLocation, jobType, status } = job;
+
+      return {
+        ...state,
+        isEditing: true,
+        editJobId: _id,
+        position,
+        company,
+        jobLocation,
+        jobType,
+        status
+      };
+
+    case DELETE_JOB_BEGIN:
+      return {
+        ...state,
+        isLoading: true
+      };
+
+    case EDIT_JOB_BEGIN:
+      return {
+        ...state,
+        isLoading: false
+      };
+
+    case EDIT_JOB_ERROR:
+      return {
+        ...state,
+        isLoading: false
       };
 
     default:

@@ -24,6 +24,47 @@ export const getAllJobs = async (req, res) => {
 };
 
 export const getJob = async (req, res) => {};
-export const updateJob = async (req, res) => {};
-export const deleteJob = async (req, res) => {};
+
+export const updateJob = async (req, res) => {
+  const { id: jobId } = req.params;
+  const { company, position } = req.body;
+
+  if (!company || !position) {
+    throw new Error('Please provide all values');
+  }
+  const job = await Job.findOne({ _id: jobId });
+
+  if (!job) {
+    throw new Error('No job found');
+  }
+
+  if (req.user.userId !== job.createdBy.toString()) {
+    throw new Error('Unauthorized');
+  }
+
+  const updatedJob = await Job.findOneAndUpdate({ _id: jobId }, req.body, {
+    new: true
+  });
+
+  res.status(StatusCodes.OK).json({ updatedJob });
+};
+
+export const deleteJob = async (req, res) => {
+  const { id: jobId } = req.params;
+
+  const job = await Job.findOne({ _id: jobId });
+
+  if (!job) {
+    throw new Error('No job found');
+  }
+
+  if (req.user.userId !== job.createdBy.toString()) {
+    throw new Error('Unauthorized');
+  }
+
+  await job.remove();
+
+  res.status(StatusCodes.OK).json({ msg: 'job removed' });
+};
+
 export const showStats = async (req, res) => {};
